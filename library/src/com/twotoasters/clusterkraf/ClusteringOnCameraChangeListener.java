@@ -31,6 +31,11 @@ class ClusteringOnCameraChangeListener implements OnCameraChangeListener {
 				host.onClusteringCameraChange();
 			}
 		}
+
+        if (options.getOnCameraChangeDownstreamListener() != null) {
+            options.getOnCameraChangeDownstreamListener().onCameraChange(newPosition);
+        }
+
 	}
 
 	public void setDirty(long when) {

@@ -47,6 +47,12 @@ public class Options {
 	 */
 	private MarkerOptionsChooser markerOptionsChooser;
 
+    /**
+     * The OnCameraChangeDownstreamListener to receive callbacks when the map camera
+     * changes.
+     */
+    private OnCameraChangeDownstreamListener onCameraChangeDownstreamListener;
+
 	/**
 	 * The OnMarkerClickDownstreamListener to receive callbacks when a marker is
 	 * clicked
@@ -367,7 +373,15 @@ public class Options {
 		this.processingListener = processingListener;
 	}
 
-	public enum ClusterClickBehavior {
+    public OnCameraChangeDownstreamListener getOnCameraChangeDownstreamListener() {
+        return onCameraChangeDownstreamListener;
+    }
+
+    public void setOnCameraChangeDownstreamListener(OnCameraChangeDownstreamListener onCameraChangeDownstreamListener) {
+        this.onCameraChangeDownstreamListener = onCameraChangeDownstreamListener;
+    }
+
+    public enum ClusterClickBehavior {
 		ZOOM_TO_BOUNDS, SHOW_INFO_WINDOW, NO_OP
 	}
 
