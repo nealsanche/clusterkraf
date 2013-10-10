@@ -240,28 +240,30 @@ public class Clusterkraf {
 	public void showInfoWindow(Marker marker, ClusterPoint clusterPoint) {
 		GoogleMap map = mapRef.get();
 		if (map != null && marker != null && clusterPoint != null) {
-			long dirtyUntil = System.currentTimeMillis() + options.getShowInfoWindowAnimationDuration();
-			innerCallbackListener.clusteringOnCameraChangeListener.setDirty(dirtyUntil);
-			CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(marker.getPosition());
-			map.animateCamera(cameraUpdate, options.getShowInfoWindowAnimationDuration(), new CancelableCallback() {
+            if (options.getSinglePointClickBehavior() == Options.SinglePointClickBehavior.SHOW_INFO_WINDOW) {
+                long dirtyUntil = System.currentTimeMillis() + options.getShowInfoWindowAnimationDuration();
+                innerCallbackListener.clusteringOnCameraChangeListener.setDirty(dirtyUntil);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(marker.getPosition());
+                map.animateCamera(cameraUpdate, options.getShowInfoWindowAnimationDuration(), new CancelableCallback() {
 
-				@Override
-				public void onFinish() {
-					innerCallbackListener.handler.post(new Runnable() {
+                    @Override
+                    public void onFinish() {
+                        innerCallbackListener.handler.post(new Runnable() {
 
-						@Override
-						public void run() {
-							innerCallbackListener.clusteringOnCameraChangeListener.setDirty(0);
+                            @Override
+                            public void run() {
+                                innerCallbackListener.clusteringOnCameraChangeListener.setDirty(0);
 
-						}
-					});
-				}
+                            }
+                        });
+                    }
 
-				@Override
-				public void onCancel() {
-					innerCallbackListener.clusteringOnCameraChangeListener.setDirty(0);
-				}
-			});
+                    @Override
+                    public void onCancel() {
+                        innerCallbackListener.clusteringOnCameraChangeListener.setDirty(0);
+                    }
+                });
+            }
 			marker.showInfoWindow();
 		}
 	}
@@ -381,6 +383,7 @@ public class Clusterkraf {
 						}
 					} else {
 						switch(clusterkraf.options.getSinglePointClickBehavior()) {
+                            case SHOW_INFO_WINDOW_NO_CENTER:
 							case SHOW_INFO_WINDOW:
 								clusterkraf.showInfoWindow(marker, clusterPoint);
 								handled = true;

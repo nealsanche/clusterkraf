@@ -376,7 +376,7 @@ public class Options {
 	}
 
 	public enum SinglePointClickBehavior {
-		SHOW_INFO_WINDOW, NO_OP
+		SHOW_INFO_WINDOW, SHOW_INFO_WINDOW_NO_CENTER, NO_OP
 	}
 
 	public enum SinglePointInfoWindowClickBehavior {
